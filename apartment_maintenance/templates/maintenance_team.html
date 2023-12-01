@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    .filter-form input, .filter-form select {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    .filter-form input[type="submit"] {
+        padding: 5px 15px;
+        background-color: #5cb85c;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .filter-form input[type="submit"]:hover {
+        background-color: #4cae4c;
+    }
+    .filter-form {
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    td img {
+        max-width: 100px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+
+<div class="filter-form">
+    <form method="get" action="">
+        Apartment Number: <input type="number" name="apartment_number"><br>
+        Area: 
+        <select name="area">
+            <option value="">Any</option>
+            <option value="0">Kitchen</option>
+            <option value="1">Bathroom</option>
+            <option value="2">Living Room</option>
+            <option value="3">Bedroom</option>
+        </select><br>
+        Date Range: 
+        <input type="date" name="start_date">
+        to
+        <input type="date" name="end_date"><br>
+        Status: 
+        <select name="status">
+            <option value="">Any</option>
+            <option value="True">Completed</option>
+            <option value="False">Pending</option>
+        </select><br>
+        <input type="submit" value="Filter">
+    </form>
+</div>
+
+<table>
+    <tr>
+        <th>Task ID</th>
+        <th>Apartment Number</th>
+        <th>Request Date</th>
+        <th>Area</th>
+        <th>Description</th>
+        <th>Image</th> <!-- Added Image Header -->
+        <th>Status</th>
+        <th>Update Status</th>
+    </tr>
+    {% for request in requests %}
+    <tr>
+        <td>{{ request.id }}</td>
+        <td>{{ request.unit_number }}</td>
+        <td>{{ request.request_date }}</td>
+        <td>{{ request.get_area_display }}</td>
+        <td>{{ request.description }}</td>
+        <td>
+            {% if request.image %}
+                <img src="{{ request.image.url }}" alt="Maintenance Image">
+            {% else %}
+                No Image
+            {% endif %}
+        </td>
+        <td>{{ request.status|yesno:"Completed,Pending" }}</td>
+        <td>
+            {% if not request.status %}
+            <form method="post" action="{% url 'update_request_status' request.id %}">
+                {% csrf_token %}
+                <input type="submit" value="Mark as Completed">
+            </form>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

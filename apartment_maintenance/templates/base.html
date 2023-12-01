@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XYZ Apartments Maintenance Portal</title>
+    <!-- Add some basic styling; you can replace with your own styles or a framework like Bootstrap if you prefer -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #157fa8;
+            color: #FFF;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav ul {
+            padding: 0;
+            list-style-type: none;
+            background-color: #f1f1f1;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 0.5rem 1rem;
+        }
+
+        nav ul li a:hover {
+            background-color: #ddd;
+        }
+    </style>
+    {% block additional_styles %}
+    {% endblock %} 
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>XYZ Apartments Maintenance Portal</h1>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'tenants' %}">Tenants</a></li>
+            <li><a href="{% url 'maintenance_team' %}">Maintenance Team</a></li>
+            <li><a href="{% url 'management' %}">Mangement</a></li>
+        </ul>
+    </nav>
+
+    <!-- Content will be filled in by other templates that extend this base template -->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+
+</html>

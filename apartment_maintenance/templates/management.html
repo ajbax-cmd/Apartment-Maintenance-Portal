@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block additional_styles %}
+<style>
+    .management-form {
+        margin-bottom: 20px; /* Adds spacing below the search form */
+    }
+    .management-form input[type="text"] {
+        padding: 5px;
+        margin-right: 10px; /* Adds spacing between the search field and button */
+        width: 200px; /* Adjust as needed */
+    }
+    .management-form input[type="submit"], .management-form a {
+        background-color: #4CAF50; /* Example button color, change as needed */
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none; /* Removes underline from links */
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .management-form input[type="submit"]:hover, .management-form a:hover {
+        background-color: #45a049; /* Darker shade for hover effect */
+    }
+    .management-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .management-table th, .management-table td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    .management-table th {
+        background-color: #f2f2f2;
+    }
+    .management-actions a {
+        margin-right: 10px; /* Adds spacing between Edit and Delete links */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Use the 'management-form' class for your form -->
+<form method="get" action="" class="management-form">
+    <input type="text" name="search" placeholder="Search tenants" value="{{ search_query }}">
+    <input type="submit" value="Search">
+</form>
+
+<a href="{% url 'add_tenant' %}" class="management-form">Add Tenant</a>
+
+<!-- Use the 'management-table' class for your table -->
+<table class="management-table">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Unit Number</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Date In</th>
+        <th>Date Out</th>
+        <th>Actions</th>
+    </tr>
+    {% for tenant in tenants %}
+    <tr>
+        <td>{{ tenant.id }}</td>
+        <td>{{ tenant.name }}</td>
+        <td>{{ tenant.unit_number }}</td>
+        <td>{{ tenant.phone }}</td>
+        <td>{{ tenant.email }}</td>
+        <td>{{ tenant.date_in}}</td>
+        <td>{{ tenant.date_out}}</td>
+        <td class="management-actions">
+            <a href="{% url 'edit_tenant' tenant.id %}">Edit</a> |
+            <a href="{% url 'delete_tenant' tenant.id %}" onclick="return confirm('Are you sure?');">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No tenants found.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

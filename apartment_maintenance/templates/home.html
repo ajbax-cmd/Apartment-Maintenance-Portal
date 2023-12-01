@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <style>
+    body {
+      background-image: url('{% static "apartment_maintenance/home.jpg" %}');
+      background-size: cover; /* Optional: You might want to cover the entire viewport */
+      background-repeat: no-repeat; /* Optional: Prevents repeating the image if it's too small for the container */
+    }
+    </style>    
+    <h2 style="text-align: center;">Maintenance Requests Done Right</h2>
+{% endblock %}
